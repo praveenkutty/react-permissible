@@ -1,16 +1,17 @@
-import { Component } from 'react';
+import React,{ Component } from 'react';
 import PropTypes from 'prop-types';
 import intersection from 'lodash.intersection';
 import difference from 'lodash.difference';
 
+
 export class PermissibleRender extends Component {
-  static propTypes = {
-    oneperm: PropTypes.bool,
-    userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    requiredPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    children: PropTypes.element.isRequired,
-    renderOtherwise: PropTypes.element,
-  };
+  // static propTypes = {
+  //   oneperm: PropTypes.bool,
+  //   userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  //   requiredPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  //   children: PropTypes.element.isRequired,
+  //   renderOtherwise: PropTypes.element,
+  // };
 
   checkPermissions() {
     const { userPermissions, requiredPermissions, oneperm } = this.props;
@@ -23,17 +24,23 @@ export class PermissibleRender extends Component {
   }
 
   render() {
+   
     const { children, userPermissions, requiredPermissions, renderOtherwise } = this.props;
-
-    if (!children || !userPermissions || !requiredPermissions) {
+    console.log("props in node",children);
+    console.log("props of rendothr",renderOtherwise);
+    
+       if (!children || !userPermissions || !requiredPermissions) {
       return null;
     }
 
     if (this.checkPermissions()) {
       return children;
     } else if (renderOtherwise) {
-      return renderOtherwise;
+      return React.createElement("div", {
+        className: "Copy"
+      }, children);
     }
+
     return null;
   }
 }
